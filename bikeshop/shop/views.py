@@ -1,3 +1,7 @@
-from django.views import View
+from django.shortcuts import render
+from .models import Bike
 
-# Create your views here.
+
+def index(request):
+    bikes = Bike.objects.all()
+    return render(request, 'shop/index.html', {'bikes': bikes})
