@@ -2,13 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Bike shop</title>
 </head>
 <body>
 <h1>Welcome to the Bike shop</h1>
 <p>Chose one of our bikes</p>
 <ul>
-    {{bikes|unordered_list}}
+    {% for bike in bikes %}
+    <li><a href="{% url 'bike' bike.pk %}">{{bike}}</a></li>
+    {%endfor%}
 </ul>
 </body>
 </html>
