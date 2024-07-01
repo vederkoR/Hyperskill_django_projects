@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Frame(models.Model):
     color = models.CharField(max_length=128)
     quantity = models.IntegerField()
@@ -38,7 +39,6 @@ class Bike(models.Model):
 
     def __str__(self):
         return f'{self.name}'
-
 
 
 class Order(models.Model):

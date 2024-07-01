@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views import View
 from django import forms
@@ -32,3 +33,28 @@ class BikeView(View):
         form = OrderForm()
         context = {'bike': bike, 'form': form, 'available': available}
         return render(request, 'shop/bike_details.html', context=context)
+
+    def post(self, request, *args, **kwargs):
+        form = OrderForm(request.POST)
+        print(request.POST)
+        if form.is_valid():
+            pk = self.kwargs['pk']
+            bike = Bike.objects.filter(pk=pk).first()
+            order = form.save(commit=False)
+            order.bike = bike
+            order.save()
+            bike.seat.quantity -= 1
+            bike.seat.save()
+            bike.tire.quantity -= 2
+            bike.tire.save()
+            bike.frame.quantity -= 1
+            bike.frame.save()
+            if bike.has_basket:
+                baskets = Basket.objects.all().first()
+                baskets.quantity -= 1
+                baskets.save()
+            return HttpResponseRedirect(f'/order/{order.pk}', order.pk)
+
+
+def order_info(request, order_number):
+    return render(request, 'shop/order_info.html', context={'order_no': order_number})

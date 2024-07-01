@@ -16,7 +16,7 @@
 <h3>If you want to order the bike, fill in the form</h3>
 <form method="post">
     {% csrf_token %}
-    {{form.as_div}}
+    {{form.as_p}}
     <button type="submit">Order</button>
 </form>
 {% else %}
